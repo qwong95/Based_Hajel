@@ -72,9 +72,12 @@ wsPass = 'tdhackathon'
 
 weapon = ''
 typeOfWeapon = ["All firearms", "Handguns", "Rifles", "Shotguns", "Other guns", "Other Firearms", "Knives", "Blunt objects", "Personal weapons", "Poison", "Exposives", "Fire", "Narcotics", "Drowning", "Strangualtion", "Asphyxiation", "Other"]
+
+# Prompt the user to select a weapon if the input is not from the list
 while weapon not in typeOfWeapon:
         weapon = raw_input('Choose a weapon: '+', '.join(typeOfWeapon) + '\n')
 
+# Retrieve the appropriate data from the Teradata REST database for a valid input
 if weapon == 'Other Firearms':
         weaponSum = perform_query ( 'select "Firearms, type not stated" from crime_data.murders_by_weapon_type', wsUser, wsPass)
 elif weapon == 'All firearms':
@@ -91,7 +94,9 @@ else:
 
 murderSum = perform_query ( 'select "Total Murders" from crime_data.murders_by_weapon_type', wsUser, wsPass)
 
+# Convert integers into doubles
 proportion = weaponSum*1.0/murderSum
+# Convert number into percentage
 percentage = round(proportion * 100,4)
 
 print('If you die, there is a ' + str(percentage) + '% chance that ' + str(weapon) + ' is what killed you. D:')
